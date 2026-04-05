@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE CODE PRO — will-zappro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #000000;
+    --bg2: #0a0a0a;
+    --bg3: #111111;
+    --bg4: #1a1a1a;
+    --border: #222222;
+    --border2: #333333;
+    --text: #ffffff;
+    --text2: #aaaaaa;
+    --text3: #666666;
+    --accent: #ffffff;
+    --green: #00ff88;
+    --yellow: #ffdd00;
+    --red: #ff4444;
+    --blue: #4488ff;
+    --purple: #aa66ff;
+    --orange: #ff8844;
+    --cyan: #00ccff;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: -0.5px;
+  }
+
+  .logo-icon {
+    width: 26px;
+    height: 26px;
+    background: white;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    flex-shrink: 0;
+  }
+
+  nav {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  nav a {
+    color: var(--text3);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.15s;
+    font-weight: 500;
+  }
+
+  nav a:hover { color: var(--text); background: var(--bg3); }
+
+  .badge {
+    background: var(--green);
+    color: #000;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 2px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    font-family: var(--mono);
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    text-align: center;
+    padding: 80px 24px 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-family: var(--mono);
+    font-size: clamp(42px, 8vw, 96px);
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 0.9;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .hero-title .glitch {
+    display: block;
+    position: relative;
+  }
+
+  .hero-sub {
+    color: var(--text2);
+    font-size: 16px;
+    max-width: 560px;
+    margin: 0 auto 40px;
+    line-height: 1.7;
+  }
+
+  .hero-sub strong { color: var(--text); }
+
+  .try-box {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-family: var(--mono);
+    font-size: 14px;
+    max-width: 480px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .try-box:hover { border-color: #555; background: var(--bg4); }
+
+  .try-box .prompt { color: var(--text3); flex-shrink: 0; }
+  .try-box .cmd { color: var(--green); flex: 1; text-align: left; }
+
+  .copy-btn {
+    background: none;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+  }
+
+  .copy-btn:hover { color: var(--text); background: var(--border); }
+
+  .copy-btn.copied { color: var(--green); }
+
+  /* ─── AGENTS ROW ─── */
+  .agents-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .agents-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-right: 8px;
+  }
+
+  .agent-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--text2);
+  }
+
+  .agent-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ─── LAYOUT ─── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* ─── SEARCH / FILTER ─── */
+  .search-bar {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .search-icon { color: var(--text3); flex-shrink: 0; }
+
+  .search-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+
+  .search-input::placeholder { color: var(--text3); }
+
+  .search-shortcut {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+
+  .tab {
+    padding: 12px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.15s;
+    font-family: var(--mono);
+  }
+
+  .tab:hover { color: var(--text2); }
+  .tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+  /* ─── MAIN GRID ─── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+  }
+
+  /* ─── SKILL CARDS (LEFT) ─── */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .skill-list { display: flex; flex-direction: column; gap: 2px; }
+
+  .skill-card {
+    display: grid;
+    grid-template-columns: 32px 1fr auto;
+    align-items: start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+
+  .skill-card:hover {
+    background: var(--bg3);
+    border-color: var(--border);
+  }
+
+  .skill-card.active {
+    background: var(--bg3);
+    border-color: var(--border2);
+  }
+
+  .skill-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+    padding-top: 2px;
+    text-align: right;
+  }
+
+  .skill-body {}
+
+  .skill-name {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .skill-desc {
+    font-size: 13px;
+    color: var(--text3);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .skill-cmd {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    background: rgba(0,255,136,0.06);
+    border: 1px solid rgba(0,255,136,0.15);
+    border-radius: 5px;
+    padding: 6px 10px;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.15s;
+    width: 100%;
+    word-break: break-all;
+  }
+
+  .skill-cmd:hover { background: rgba(0,255,136,0.12); }
+
+  .skill-cmd.copied { color: var(--text3); background: var(--bg3); }
+
+  .skill-tags {
+    display: flex;
+    gap: 4px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    border: 1px solid var(--border2);
+    color: var(--text3);
+  }
+
+  .tag.green { border-color: rgba(0,255,136,0.3); color: var(--green); background: rgba(0,255,136,0.05); }
+  .tag.yellow { border-color: rgba(255,221,0,0.3); color: var(--yellow); background: rgba(255,221,0,0.05); }
+  .tag.blue { border-color: rgba(68,136,255,0.3); color: var(--blue); background: rgba(68,136,255,0.05); }
+  .tag.purple { border-color: rgba(170,102,255,0.3); color: var(--purple); background: rgba(170,102,255,0.05); }
+  .tag.red { border-color: rgba(255,68,68,0.3); color: var(--red); background: rgba(255,68,68,0.05); }
+  .tag.orange { border-color: rgba(255,136,68,0.3); color: var(--orange); background: rgba(255,136,68,0.05); }
+  .tag.cyan { border-color: rgba(0,204,255,0.3); color: var(--cyan); background: rgba(0,204,255,0.05); }
+
+  .skill-installs {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    text-align: right;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+
+  /* ─── SIDEBAR (RIGHT) ─── */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+  .sidebar-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .sidebar-card-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .sidebar-item {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+
+  .sidebar-item:last-child { border-bottom: none; }
+  .sidebar-item:hover { background: var(--bg4); }
+
+  .sidebar-item-left { display: flex; align-items: center; gap: 10px; }
+
+  .sidebar-item-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-weight: 700;
+  }
+
+  .sidebar-item-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .sidebar-item-sub {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 1px;
+  }
+
+  .sidebar-item-val {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text3);
+    white-space: nowrap;
+  }
+
+  /* ─── STATUS DOTS ─── */
+  .status { display: flex; align-items: center; gap: 5px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; }
+  .dot.green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot.yellow { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+  .dot.red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+  .dot.gray { background: var(--text3); }
+
+  /* ─── SECTION BLOCKS ─── */
+  .section { margin-bottom: 40px; }
+
+  .section-title {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-subtitle {
+    color: var(--text3);
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  /* ─── CODE BLOCKS ─── */
+  .code-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .code-header {
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg4);
+  }
+
+  .code-title { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+
+  .code-body {
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-x: auto;
+  }
+
+  .code-body .c { color: var(--text3); }
+  .code-body .k { color: var(--purple); }
+  .code-body .s { color: var(--green); }
+  .code-body .v { color: var(--cyan); }
+  .code-body .f { color: var(--yellow); }
+  .code-body .p { color: var(--orange); }
+
+  /* ─── TABLE ─── */
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .ref-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  .ref-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(34,34,34,0.5);
+    vertical-align: top;
+  }
+
+  .ref-table tr:last-child td { border-bottom: none; }
+  .ref-table tr:hover td { background: var(--bg4); }
+
+  .ref-table .mono { font-family: var(--mono); font-size: 12px; color: var(--green); }
+  .ref-table .desc { color: var(--text2); }
+  .ref-table .note { color: var(--text3); font-size: 12px; }
+
+  /* ─── FLOW DIAGRAM ─── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+
+  .flow-step {
+    background: var(--bg4);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-family: var(--mono);
+    font-size: 12px;
+    text-align: center;
+    min-width: 90px;
+  }
+
+  .flow-step .step-num {
+    font-size: 9px;
+    color: var(--text3);
+    display: block;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+  }
+
+  .flow-step .step-name { color: var(--text); font-weight: 600; }
+  .flow-step .step-sub { color: var(--text3); font-size: 10px; display: block; margin-top: 1px; }
+
+  .flow-arrow { color: var(--text3); font-size: 16px; flex-shrink: 0; }
+
+  /* ─── GUARDRAILS ─── */
+  .guardrail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .guardrail {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+
+  .guardrail.block { border-left: 3px solid var(--red); }
+  .guardrail.safe { border-left: 3px solid var(--green); }
+
+  .guardrail-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .guardrail-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .guardrail.block .guardrail-name { color: var(--red); }
+  .guardrail.safe .guardrail-name { color: var(--green); }
+  .guardrail-why { color: var(--text3); font-size: 11px; }
+
+  /* ─── ALIAS TABLE ─── */
+  .alias-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .alias-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .alias-item:hover { border-color: var(--border2); background: var(--bg4); }
+
+  .alias-key {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--yellow);
+  }
+
+  .alias-val {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    word-break: break-all;
+  }
+
+  /* ─── PLUGIN CARDS ─── */
+  .plugin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .plugin-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+
+  .plugin-card:hover { border-color: var(--border2); }
+
+  .plugin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .plugin-name {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .plugin-cmd {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--cyan);
+    background: rgba(0,204,255,0.08);
+    border: 1px solid rgba(0,204,255,0.2);
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+
+  .plugin-desc {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.5;
+  }
+
+  /* ─── MCP CARD ─── */
+  .mcp-list { display: flex; flex-direction: column; gap: 6px; }
+
+  .mcp-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 14px;
+    transition: all 0.15s;
+  }
+
+  .mcp-item:hover { border-color: var(--border2); }
+
+  .mcp-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .mcp-name { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+  .mcp-pkg { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 2px; }
+  .mcp-desc { font-size: 12px; color: var(--text3); margin-left: auto; text-align: right; max-width: 150px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  footer span { color: var(--text2); }
+
+  /* ─── SCROLL ─── */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .alias-grid, .plugin-grid, .guardrail-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 52px; }
+    .flow { flex-direction: column; align-items: flex-start; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  .cursor { display: inline-block; width: 2px; height: 1em; background: var(--green); animation: blink 1s infinite; vertical-align: text-bottom; margin-left: 2px; }
+
+  .section-divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+  .tip-box {
+    background: rgba(0,255,136,0.04);
+    border: 1px solid rgba(0,255,136,0.15);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .tip-icon { color: var(--green); flex-shrink: 0; font-size: 14px; }
+  .tip-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .tip-text strong { color: var(--green); font-family: var(--mono); }
+
+  .warn-box {
+    background: rgba(255,68,68,0.04);
+    border: 1px solid rgba(255,68,68,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .warn-icon { color: var(--red); flex-shrink: 0; font-size: 14px; }
+  .warn-text { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .warn-text strong { color: var(--red); font-family: var(--mono); }
+
+  .step-list { display: flex; flex-direction: column; gap: 0; }
+
+  .step-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .step-item:last-child { border-bottom: none; }
+
+  .step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text2);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step-content {}
+  .step-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .step-desc { color: var(--text3); font-size: 13px; line-height: 1.5; margin-bottom: 8px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header>
+  <div class="logo">
+    <div class="logo-icon"></div>
+    CLAUDE CODE PRO
+    <span class="badge">MINIMAX</span>
+  </div>
+  <nav>
+    <a href="#aliases">Aliases</a>
+    <a href="#plugins">Plugins</a>
+    <a href="#gitops">GitOps</a>
+    <a href="#guardrails">Guardrails</a>
+    <a href="#homelab">Homelab</a>
+  </nav>
+</header>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div class="hero">
+  <div class="hero-eyebrow">will-zappro | Ubuntu 24.04 | RTX 4090 | ZFS 3.46TB</div>
+  <div class="hero-title">
+    <span class="glitch">CLAUDE</span>
+    <span class="glitch">CODE PRO</span>
+  </div>
+  <p class="hero-sub">
+    Skills reutilizáveis para o seu agente local.<br>
+    <strong>MiniMax-M2.7</strong> via proxy · <strong>Claude Pro OAuth</strong> · <strong>9 plugins</strong> · <strong>5 MCP servers</strong>
+  </p>
+  <div class="try-box" onclick="copyCmd(this, 'cm')">
+    <span class="prompt">$</span>
+    <span class="cmd">cm<span class="cursor"></span></span>
+    <button class="copy-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════ AGENTS ROW ═══════════════ -->
+<div class="agents-row">
+  <span class="agents-label">Stack</span>
+  <div class="agent-chip"><div class="agent-dot" style="background:#00ff88"></div>MiniMax-M2.7</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#ff6644"></div>Claude Pro OAuth</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#4488ff"></div>Claude Code CLI</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#aa66ff"></div>9 Plugins</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#ffdd00"></div>7 MCP Servers</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#ff8844"></div>Gitea GitOps</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#00ccff"></div>Coolify Deploy</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#ff66aa"></div>Kokoro TTS</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#66ffee"></div>Infisical</div>
+  <div class="agent-chip"><div class="agent-dot" style="background:#ffaa00"></div>OpenClaw</div>
+</div>
+
+<!-- ═══════════════ TABS ═══════════════ -->
+<div style="max-width:1100px;margin:0 auto;">
+  <div class="tabs">
+    <div class="tab active">All Time (42)</div>
+    <div class="tab">Trending (24h)</div>
+    <div class="tab">Iniciante</div>
+    <div class="tab">GitOps</div>
+    <div class="tab">Homelab</div>
+  </div>
+</div>
+
+<!-- ═══════════════ SEARCH ═══════════════ -->
+<div class="search-bar">
+  <div class="search-icon">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+  </div>
+  <input class="search-input" placeholder="Buscar commands, aliases, plugins..." />
+  <span class="search-shortcut">/</span>
+</div>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<div class="main">
+
+  <!-- ══════ LEFT COLUMN ══════ -->
+  <div class="left-col">
+
+    <!-- ─── 1. QUICK START ─── -->
+    <div class="section" id="aliases">
+      <div class="section-label">01 — Quick Start</div>
+      <div class="section-title">🚀 Primeiros passos</div>
+      <p class="section-subtitle">Como abrir o Claude Code Pro com MiniMax no seu homelab</p>
+
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <div class="tip-text">Use <strong>cm</strong> para MiniMax-M2.7 (plano $50) ou <strong>cp</strong> para Claude Sonnet 4.6 OAuth (plano $20). Ambos já estão configurados.</div>
+      </div>
+
+      <div class="skill-list">
+
+        <div class="skill-card active">
+          <div class="skill-num">01</div>
+          <div class="skill-body">
+            <div class="skill-name">Modo Padrão <span class="tag green">BÁSICO</span></div>
+            <div class="skill-desc">Abre o Claude Code normalmente. Pede confirmação antes de cada ação.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'claude')">$ claude</div>
+            <div class="skill-tags"><span class="tag">iniciante</span><span class="tag">seguro</span></div>
+          </div>
+          <div class="skill-installs">⭐ padrão</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">02</div>
+          <div class="skill-body">
+            <div class="skill-name">MiniMax M2.7 <span class="tag yellow">$50/MÊS</span></div>
+            <div class="skill-desc">MiniMax via proxy Anthropic. Melhor custo-benefício para tarefas do dia-a-dia.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'cm')">$ cm</div>
+            <div class="skill-tags"><span class="tag yellow">cp</span><span class="tag">alias</span></div>
+          </div>
+          <div class="skill-installs">🔥 mais usado</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">03</div>
+          <div class="skill-body">
+            <div class="skill-name">Claude Pro OAuth <span class="tag purple">$20/MÊS</span></div>
+            <div class="skill-desc">Claude Sonnet 4.6 via OAuth direto da Anthropic. Ideal para tarefas complexas.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'cp')">$ cp</div>
+            <div class="skill-tags"><span class="tag purple">cop</span><span class="tag">alias</span></div>
+          </div>
+          <div class="skill-installs">🧠 pesado</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">04</div>
+          <div class="skill-body">
+            <div class="skill-name">One-Shot <span class="tag blue">SCRIPT</span></div>
+            <div class="skill-desc">Executa um prompt direto e sai. Perfeito para automações e cron jobs.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'cm -p "sua tarefa aqui"')">$ cm -p "sua tarefa aqui"</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'cp -p "sua tarefa aqui"')">$ cp -p "sua tarefa aqui"</div>
+            <div class="skill-tags"><span class="tag blue">cps</span><span class="tag">automação</span></div>
+          </div>
+          <div class="skill-installs">⚡ rápido</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">05</div>
+          <div class="skill-body">
+            <div class="skill-name">Homelab Admin <span class="tag cyan">HOMELAB</span></div>
+            <div class="skill-desc">Alias especial para tarefas de infraestrutura do will-zappro. Contexto pré-carregado.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'chost "descrição da tarefa"')">$ chost "descrição da tarefa"</div>
+            <div class="skill-tags"><span class="tag cyan">chost</span><span class="tag">infra</span></div>
+          </div>
+          <div class="skill-installs">🏠 homelab</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">06</div>
+          <div class="skill-body">
+            <div class="skill-name">Monorepo Mode <span class="tag orange">GIT</span></div>
+            <div class="skill-desc">Entra em /srv/monorepo e abre o Claude. Contexto do projeto pré-carregado via CLAUDE.md.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'cmon')">$ cmon</div>
+            <div class="skill-tags"><span class="tag orange">monorepo</span><span class="tag">/srv/monorepo</span></div>
+          </div>
+          <div class="skill-installs">📦 projeto</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── DIAGNÓSTICO ─── -->
+    <div class="section-divider"></div>
+    <div class="section" id="diagnostico">
+      <div class="section-label">02 — Diagnóstico</div>
+      <div class="section-title">🩺 Verificação Rápida</div>
+      <p class="section-subtitle">One-shots para checar saúde do sistema em 1 comando</p>
+
+      <div class="skill-list">
+
+        <div class="skill-card">
+          <div class="skill-num">01</div>
+          <div class="skill-body">
+            <div class="skill-name">Docker Health <span class="tag blue">CONTAINER</span></div>
+            <div class="skill-desc">Lista todos os containers com status. Primeira checagem quando algo não funciona.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'cm -p "docker ps --format ''{{.Names}} {{.Status}}''"')">$ cm -p "docker ps..."</div>
+            <div class="skill-tags"><span class="tag blue">homelab</span><span class="tag">docker</span></div>
+          </div>
+          <div class="skill-installs">🐳 status</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">02</div>
+          <div class="skill-body">
+            <div class="skill-name">MCP Servers <span class="tag purple">PLUGIN</span></div>
+            <div class="skill-desc">Mostra todos os MCP servers ativos e seu status. Verifica se algum está quebrado.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'cm -p "claude mcp list"')">$ cm -p "claude mcp list"</div>
+            <div class="skill-tags"><span class="tag purple">mcp</span><span class="tag">tools</span></div>
+          </div>
+          <div class="skill-installs">🔗 7 servers</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">03</div>
+          <div class="skill-body">
+            <div class="skill-name">Disk + RAM <span class="tag yellow">SYS</span></div>
+            <div class="skill-desc">Uso de disco /srv e memória RAM. Para quando o ZFS está cheio ou RAM está estourando.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'cm -p "df -h /srv && free -h"')">$ cm -p "df -h /srv..."</div>
+            <div class="skill-tags"><span class="tag yellow">infra</span><span class="tag">memória</span></div>
+          </div>
+          <div class="skill-installs">💾 storage</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">04</div>
+          <div class="skill-body">
+            <div class="skill-name">Config Doctor <span class="tag green">DEBUG</span></div>
+            <div class="skill-desc">Verifica se a configuração está saudável. MCP servers, API key, permissões, plugins.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'claude --doctor')">$ claude --doctor</div>
+            <div class="skill-tags"><span class="tag green">cdr</span><span class="tag">diagnóstico</span></div>
+          </div>
+          <div class="skill-installs">🩺 check</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-num">05</div>
+          <div class="skill-body">
+            <div class="skill-name">Continuar Sessão <span class="tag">RESUME</span></div>
+            <div class="skill-desc">Retoma uma task interrompida pelo ID. O Claude lembra de tudo que foi feito.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'claude --resume task_abc123')">$ claude --resume task_abc123</div>
+            <div class="skill-tags"><span class="tag">retomar</span><span class="tag">sessão</span></div>
+          </div>
+          <div class="skill-installs">↩️ resume</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── ALIASES ─── -->
+    <div class="section-divider"></div>
+    <div class="section">
+      <div class="section-label">02 — Aliases</div>
+      <div class="section-title">⚡ Aliases do ~/.bashrc</div>
+      <p class="section-subtitle">Cole no seu ~/.bashrc ou ~/.zshrc e dê source para ativar</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-title">~/.bashrc — cole e salve</span>
+          <button class="copy-btn" onclick="copyBlock(this, `alias c='claude'
+alias cm='KEY=$(grep ^MINIMAX_API_KEY= ~/.claude/.secrets | cut -d= -f2-) && ANTHROPIC_BASE_URL=https://api.minimax.io/anthropic ANTHROPIC_AUTH_TOKEN=$KEY ANTHROPIC_MODEL=MiniMax-M2.7 API_TIMEOUT_MS=3000000 claude --dangerously-skip-permissions'
+alias cp='env -u ANTHROPIC_BASE_URL -u ANTHROPIC_AUTH_TOKEN -u ANTHROPIC_MODEL -u API_TIMEOUT_MS claude --dangerously-skip-permissions'
+alias chost='/usr/local/bin/codex-host'
+alias cmon='cd /srv/monorepo && claude'
+alias cdr='claude --doctor'`)">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+        <div class="code-body">
+<span class="k">alias</span> <span class="v">c</span>=<span class="s">'claude'</span>
+<span class="k">alias</span> <span class="v">cm</span>=<span class="s">'MiniMax-M2.7 via proxy (plano $50)'</span>
+<span class="k">alias</span> <span class="v">cp</span>=<span class="s">'Claude Pro OAuth (plano $20)'</span>
+<span class="k">alias</span> <span class="v">chost</span>=<span class="s">'/usr/local/bin/codex-host'</span>
+<span class="k">alias</span> <span class="v">cmon</span>=<span class="s">'cd /srv/monorepo && claude'</span>
+<span class="k">alias</span> <span class="v">cdr</span>=<span class="s">'claude --doctor'</span>
+
+<span class="c"># ativar imediatamente:</span>
+<span class="f">source</span> ~/.bashrc
+        </div>
+      </div>
+
+      <div class="alias-grid">
+        <div class="alias-item" onclick="copyCmd(this, 'c')">
+          <div class="alias-key">c</div>
+          <div class="alias-val">claude (modo padrão)</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, 'cm')">
+          <div class="alias-key">cm</div>
+          <div class="alias-val">MiniMax-M2.7 via proxy ($50)</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, 'cp')">
+          <div class="alias-key">cp</div>
+          <div class="alias-val">Claude Pro OAuth ($20)</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, 'chost "tarefa"')">
+          <div class="alias-key">chost</div>
+          <div class="alias-val">/usr/local/bin/codex-host</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, 'cmon')">
+          <div class="alias-key">cmon</div>
+          <div class="alias-val">cd /srv/monorepo && claude</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, 'cdr')">
+          <div class="alias-key">cdr</div>
+          <div class="alias-val">claude --doctor</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── PLUGINS ─── -->
+    <div class="section-divider"></div>
+    <div class="section" id="plugins">
+      <div class="section-label">03 — Plugins</div>
+      <div class="section-title">🔌 9 Plugins Instalados</div>
+      <p class="section-subtitle">Use dentro do Claude Code com <code style="font-family:var(--mono);color:var(--cyan)">/comando</code> — disponíveis em qualquer sessão</p>
+
+      <div class="plugin-grid">
+
+        <div class="plugin-card">
+          <div class="plugin-header">
+            <div class="plugin-name">commit-commands</div>
+            <div class="plugin-cmd">/commit</div>
+          </div>
+          <div class="plugin-desc">Git workflow completo. Faz commit do staged + push em um comando. <br><br>
+          <code style="font-family:var(--mono);color:var(--green);font-size:11px">/commit "fix: auth bug"</code><br>
+          <code style="font-family:var(--mono);color:var(--green);font-size:11px">/commit-push-pr "feat: nova feature"</code></div>
+        </div>
+
+        <div class="plugin-card">
+          <div class="plugin-header">
+            <div class="plugin-name">ralph-loop</div>
+            <div class="plugin-cmd">/ralph-loop</div>
+          </div>
+          <div class="plugin-desc">Loop autônomo iterativo. Roda tarefas longas sem supervisão.<br><br>
+          <code style="font-family:var(--mono);color:var(--green);font-size:11px">/ralph-loop</code> — inicia<br>
+          <code style="font-family:var(--mono);color:var(--green);font-size:11px">/cancel-ralph</code> — cancela</div>
+        </div>
+
+        <div class="plugin-card">
+          <div class="plugin-header">
+            <div class="plugin-name">code-review</div>
+            <div class="plugin-cmd">/code-review</div>
+          </div>
+          <div class="plugin-desc">Review com 5 instâncias Sonnet em paralelo. Detecta bugs, segurança e qualidade antes do merge.</div>
+        </div>
+
+        <div class="plugin-card">
+          <div class="plugin-header">
+            <div class="plugin-name">feature-dev</div>
+            <div class="plugin-cmd">/feature-dev</div>
+          </div>
+          <div class="plugin-desc">7 fases de desenvolvimento de feature: spec → design → impl → test → review → docs → deploy.</div>
+        </div>
+
+        <div class="plugin-card">
+          <div class="plugin-header">
+            <div class="plugin-name">pr-review-toolkit</div>
+            <div class="plugin-cmd">/pr-review-toolkit:review-pr</div>
+          </div>
+          <div class="plugin-desc">Revisão completa de Pull Request. Analisa diff, contexto e sugere aprovação ou mudanças.</div>
+        </div>
+
+        <div class="plugin-card">
+          <div class="plugin-header">
+            <div class="plugin-name">hookify</div>
+            <div class="plugin-cmd">/hookify:*</div>
+          </div>
+          <div class="plugin-desc">Previne comportamento ruim do agente. Garante que o Claude siga os guardrails do projeto.</div>
+        </div>
+
+        <div class="plugin-card">
+          <div class="plugin-header">
+            <div class="plugin-name">security-guidance</div>
+            <div class="plugin-cmd">hook auto</div>
+          </div>
+          <div class="plugin-desc">9 padrões de segurança aplicados automaticamente em todo código gerado.</div>
+        </div>
+
+        <div class="plugin-card">
+          <div class="plugin-header">
+            <div class="plugin-name">frontend-design</div>
+            <div class="plugin-cmd">hook auto</div>
+          </div>
+          <div class="plugin-desc">Garante que UI gerado é production-grade. Aplica boas práticas de design automaticamente.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ─── MCP ─── -->
+    <div class="section-divider"></div>
+    <div class="section">
+      <div class="section-label">04 — MCP Servers</div>
+      <div class="section-title">🔗 5 MCP Servers Ativos</div>
+      <p class="section-subtitle">Ferramentas externas disponíveis via <code style="font-family:var(--mono);color:var(--cyan)">claude mcp list</code></p>
+
+      <div class="mcp-list">
+        <div class="mcp-item">
+          <div class="mcp-icon" style="background:rgba(0,255,136,0.1)">📁</div>
+          <div>
+            <div class="mcp-name">filesystem</div>
+            <div class="mcp-pkg">@j0hanz/filesystem-mcp</div>
+          </div>
+          <div class="mcp-desc">File ops avançados</div>
+        </div>
+        <div class="mcp-item">
+          <div class="mcp-icon" style="background:rgba(255,136,68,0.1)">🔀</div>
+          <div>
+            <div class="mcp-name">git</div>
+            <div class="mcp-pkg">@cyanheads/git-mcp-server</div>
+          </div>
+          <div class="mcp-desc">Git completo</div>
+        </div>
+        <div class="mcp-item">
+          <div class="mcp-icon" style="background:rgba(68,136,255,0.1)">📚</div>
+          <div>
+            <div class="mcp-name">context7</div>
+            <div class="mcp-pkg">@upstash/context7-mcp</div>
+          </div>
+          <div class="mcp-desc">Contexto de código</div>
+        </div>
+        <div class="mcp-item" style="border-color:rgba(170,102,255,0.3)">
+          <div class="mcp-icon" style="background:rgba(170,102,255,0.1)">🧠</div>
+          <div>
+            <div class="mcp-name" style="color:var(--purple)">memory ⭐</div>
+            <div class="mcp-pkg">@modelcontextprotocol/server-memory</div>
+          </div>
+          <div class="mcp-desc">Knowledge graph persistente em ~/.claude/memory/memory.jsonl</div>
+        </div>
+        <div class="mcp-item">
+          <div class="mcp-icon" style="background:rgba(0,204,255,0.1)">🐙</div>
+          <div>
+            <div class="mcp-name">github</div>
+            <div class="mcp-pkg">@modelcontextprotocol/server-github</div>
+          </div>
+          <div class="mcp-desc">Issues, PRs, repos</div>
+        </div>
+        <div class="mcp-item">
+          <div class="mcp-icon" style="background:rgba(255,170,0,0.1)">🌐</div>
+          <div>
+            <div class="mcp-name">playwright</div>
+            <div class="mcp-pkg">chrome-devtools-mcp</div>
+          </div>
+          <div class="mcp-desc">Browser automation + screenshots</div>
+        </div>
+        <div class="mcp-item">
+          <div class="mcp-icon" style="background:rgba(255,102,170,0.1)">🔍</div>
+          <div>
+            <div class="mcp-name">tavily</div>
+            <div class="mcp-pkg">@modelcontextprotocol/server-tavily</div>
+          </div>
+          <div class="mcp-desc">Web search via Infisical vault</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── GITOPS ─── -->
+    <div class="section-divider"></div>
+    <div class="section" id="gitops">
+      <div class="section-label">05 — GitOps</div>
+      <div class="section-title">🔄 Fluxo GitOps Completo</div>
+      <p class="section-subtitle">Claude Code → Gitea → Coolify → Deploy automático</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <span class="step-num">STEP 1</span>
+          <span class="step-name">Claude</span>
+          <span class="step-sub">code + /commit</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <span class="step-num">STEP 2</span>
+          <span class="step-name">Gitea</span>
+          <span class="step-sub">git.zappro.site</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <span class="step-num">STEP 3</span>
+          <span class="step-name">Webhook</span>
+          <span class="step-sub">push event</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <span class="step-num">STEP 4</span>
+          <span class="step-name">Coolify</span>
+          <span class="step-sub">build + deploy</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step" style="border-color:rgba(0,255,136,0.3)">
+          <span class="step-num">DONE</span>
+          <span class="step-name" style="color:var(--green)">Live ✅</span>
+          <span class="step-sub">health check</span>
+        </div>
+      </div>
+
+      <div class="step-list">
+
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Criar branch de feature</div>
+            <div class="step-desc">Sempre trabalhe em branches separados do main. O main é protegido e só aceita PR.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'git checkout -b feat/nome-da-feature')">$ git checkout -b feat/nome-da-feature</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Desenvolver com Claude Code</div>
+            <div class="step-desc">Claude implementa, testa e commita incrementalmente. Use /commit para commits rápidos.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, '/commit "fix: descrição do que foi feito"')">/commit "fix: descrição do que foi feito"</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Code review antes do merge</div>
+            <div class="step-desc">5 Sonnets revisam o código em paralelo. Detecta bugs e problemas de segurança.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, '/code-review')">/code-review</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">4</div>
+          <div class="step-content">
+            <div class="step-title">Merge via PR — tudo em um comando</div>
+            <div class="step-desc">Faz commit + push + cria PR no Gitea automaticamente.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, '/commit-push-pr "feat: descrição completa da feature"')">/commit-push-pr "feat: descrição completa da feature"</div>
+          </div>
+        </div>
+
+        <div class="step-item">
+          <div class="step-number">5</div>
+          <div class="step-content">
+            <div class="step-title">Deploy automático via Coolify</div>
+            <div class="step-desc">Coolify recebe o webhook do Gitea, faz build da imagem Docker e deploy com health check. Zero intervenção manual.</div>
+            <div class="skill-cmd" onclick="copyCmd(this, 'open https://coolify.zappro.site')">→ coolify.zappro.site → Application → Deployments ✅</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="section-label">Convenção de Commits</div>
+      <table class="ref-table">
+        <thead><tr><th>Prefixo</th><th>Quando usar</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">feat:</td><td class="desc">Nova funcionalidade</td><td class="note">feat(api): endpoint /health/detailed</td></tr>
+          <tr><td class="mono">fix:</td><td class="desc">Correção de bug</td><td class="note">fix(auth): JWT expiry validation</td></tr>
+          <tr><td class="mono">refactor:</td><td class="desc">Melhoria sem nova feature</td><td class="note">refactor(db): extrair query builder</td></tr>
+          <tr><td class="mono">chore:</td><td class="desc">Tarefas de manutenção</td><td class="note">chore(deps): atualizar dependencies</td></tr>
+          <tr><td class="mono">docs:</td><td class="desc">Documentação apenas</td><td class="note">docs: atualizar README</td></tr>
+          <tr><td class="mono">hotfix:</td><td class="desc">Fix urgente em produção</td><td class="note">hotfix: autenticação quebrada</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ─── GUARDRAILS ─── -->
+    <div class="section-divider"></div>
+    <div class="section" id="guardrails">
+      <div class="section-label">06 — Guardrails</div>
+      <div class="section-title">🛡️ Regras Imutáveis do Homelab</div>
+      <p class="section-subtitle">Definidas em <code style="font-family:var(--mono);color:var(--cyan)">/srv/ops/ai-governance/GUARDRAILS.md</code> com chattr+i</p>
+
+      <div class="warn-box">
+        <span class="warn-icon">⛔</span>
+        <div class="warn-text">Antes de qualquer ação em zona proibida, o agente <strong>PARA</strong> e pede confirmação explícita. Nunca execute comandos destrutivos sem snapshot ZFS antes.</div>
+      </div>
+
+      <div class="guardrail-grid">
+        <div class="guardrail block">
+          <div class="guardrail-icon">🚫</div>
+          <div>
+            <div class="guardrail-name">apt upgrade*</div>
+            <div class="guardrail-why">Kernel e drivers podem quebrar GPU/ZFS</div>
+          </div>
+        </div>
+        <div class="guardrail block">
+          <div class="guardrail-icon">🚫</div>
+          <div>
+            <div class="guardrail-name">zfs destroy*</div>
+            <div class="guardrail-why">Sem snapshot confirmado = proibido</div>
+          </div>
+        </div>
+        <div class="guardrail block">
+          <div class="guardrail-icon">🚫</div>
+          <div>
+            <div class="guardrail-name">terraform destroy*</div>
+            <div class="guardrail-why">Recursos Cloudflare são produção</div>
+          </div>
+        </div>
+        <div class="guardrail block">
+          <div class="guardrail-icon">🚫</div>
+          <div>
+            <div class="guardrail-name">coolify update*</div>
+            <div class="guardrail-why">Pinado em 4.0.0-beta.470 com chattr+i</div>
+          </div>
+        </div>
+        <div class="guardrail block">
+          <div class="guardrail-icon">🚫</div>
+          <div>
+            <div class="guardrail-name">ler aurelia.env</div>
+            <div class="guardrail-why">Arquivo de secrets — fora de limites</div>
+          </div>
+        </div>
+        <div class="guardrail block">
+          <div class="guardrail-icon">🚫</div>
+          <div>
+            <div class="guardrail-name">ler id_rsa</div>
+            <div class="guardrail-why">Chaves SSH privadas fora de limites</div>
+          </div>
+        </div>
+        <div class="guardrail safe">
+          <div class="guardrail-icon">✅</div>
+          <div>
+            <div class="guardrail-name">Terraform → Cloudflare</div>
+            <div class="guardrail-why">TUDO via IaC, zero cliques no dashboard</div>
+          </div>
+        </div>
+        <div class="guardrail safe">
+          <div class="guardrail-icon">✅</div>
+          <div>
+            <div class="guardrail-name">ZFS snapshot antes</div>
+            <div class="guardrail-why">Sempre snapshot antes de ops destrutivas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── HOMELAB ─── -->
+    <div class="section-divider"></div>
+    <div class="section" id="homelab">
+      <div class="section-label">07 — Homelab</div>
+      <div class="section-title">🏠 Comandos do will-zappro</div>
+      <p class="section-subtitle">Referência rápida para operar o homelab via terminal</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-title">Docker — monitoramento</span>
+          <button class="copy-btn" onclick="copyBlock(this, 'docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+        <div class="code-body">
+<span class="c"># Ver todos os containers com status</span>
+<span class="f">docker</span> ps --format <span class="s">"table {{.Names}}\t{{.Status}}\t{{.Ports}}"</span>
+
+<span class="c"># Logs de um serviço</span>
+<span class="f">docker</span> logs aurelia-kokoro --tail 30
+
+<span class="c"># Restart de um serviço</span>
+<span class="f">docker</span> restart aurelia-api
+
+<span class="c"># Exec no container</span>
+<span class="f">docker</span> exec -it gitea bash
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-title">GPU — monitoramento RTX 4090</span>
+          <button class="copy-btn" onclick="copyBlock(this, 'nvidia-smi --query-gpu=memory.used,memory.free --format=csv,noheader')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+        <div class="code-body">
+<span class="c"># VRAM usada vs livre</span>
+<span class="f">nvidia-smi</span> --query-gpu=memory.used,memory.free --format=csv,noheader
+
+<span class="c"># Monitor contínuo</span>
+<span class="f">watch</span> -n1 nvidia-smi
+
+<span class="c"># GPU nos containers</span>
+<span class="f">docker</span> run --rm --gpus all nvidia/cuda:12.0-base nvidia-smi
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-title">ZFS — snapshots e storage</span>
+          <button class="copy-btn" onclick="copyBlock(this, 'zfs list -t snapshot | grep tank')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+        <div class="code-body">
+<span class="c"># Listar snapshots</span>
+<span class="f">zfs</span> list -t snapshot | grep tank
+
+<span class="c"># Criar snapshot manual (SEMPRE antes de mudanças)</span>
+<span class="f">sudo</span> zfs snapshot -r <span class="s">"tank@pre-$(date +%Y%m%d-%H%M%S)-manual"</span>
+
+<span class="c"># Ver uso do pool</span>
+<span class="f">zfs</span> list
+<span class="f">zpool</span> status
+        </div>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-title">Coolify + Cloudflare</span>
+          <button class="copy-btn" onclick="copyBlock(this, 'curl -s http://localhost:8000/api/v1/health')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+        </div>
+        <div class="code-body">
+<span class="c"># Health do Coolify</span>
+<span class="f">curl</span> -s http://localhost:8000/api/v1/health
+
+<span class="c"># Tunnel status</span>
+<span class="f">journalctl</span> -u cloudflared --tail 20 --no-pager
+
+<span class="c"># Terraform — plan antes de aplicar</span>
+<span class="f">cd</span> /srv/ops/terraform/cloudflare
+<span class="f">terraform</span> plan
+<span class="f">terraform</span> apply
+        </div>
+      </div>
+
+      <table class="ref-table">
+        <thead><tr><th>Serviço</th><th>URL Pública</th><th>Porta Local</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="mono">n8n</td>
+            <td class="desc">n8n.zappro.site</td>
+            <td class="note">5678</td>
+            <td><span class="status"><span class="dot green"></span> healthy</span></td>
+          </tr>
+          <tr>
+            <td class="mono">coolify</td>
+            <td class="desc">coolify.zappro.site</td>
+            <td class="note">8000</td>
+            <td><span class="status"><span class="dot green"></span> healthy</span></td>
+          </tr>
+          <tr>
+            <td class="mono">gitea</td>
+            <td class="desc">git.zappro.site</td>
+            <td class="note">3300</td>
+            <td><span class="status"><span class="dot green"></span> up</span></td>
+          </tr>
+          <tr>
+            <td class="mono">aurelia</td>
+            <td class="desc">aurelia.zappro.site</td>
+            <td class="note">3334</td>
+            <td><span class="status"><span class="dot green"></span> healthy</span></td>
+          </tr>
+          <tr>
+            <td class="mono">qdrant</td>
+            <td class="desc">qdrant.zappro.site</td>
+            <td class="note">6333</td>
+            <td><span class="status"><span class="dot green"></span> healthy</span></td>
+          </tr>
+          <tr>
+            <td class="mono">openclaw</td>
+            <td class="desc">bot.zappro.site</td>
+            <td class="note">4001</td>
+            <td><span class="status"><span class="dot green"></span> healthy</span></td>
+          </tr>
+          <tr>
+            <td class="mono">kokoro</td>
+            <td class="desc">—</td>
+            <td class="note">8012</td>
+            <td><span class="status"><span class="dot yellow"></span> unhealthy</span></td>
+          </tr>
+          <tr>
+            <td class="mono">monitor</td>
+            <td class="desc">monitor.zappro.site</td>
+            <td class="note">3100</td>
+            <td><span class="status"><span class="dot green"></span> up</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- end left -->
+
+  <!-- ══════ RIGHT SIDEBAR ══════ -->
+  <div class="sidebar">
+
+    <!-- Config card -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">
+        <span>⚙️ Configuração</span>
+        <span class="tag green">ATIVO</span>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="sidebar-item-icon" style="background:rgba(0,255,136,0.1);color:var(--green)">M</div>
+          <div>
+            <div class="sidebar-item-name">Model</div>
+            <div class="sidebar-item-sub">MiniMax-M2.7</div>
+          </div>
+        </div>
+        <div class="status"><div class="dot green"></div></div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="sidebar-item-icon" style="background:rgba(68,136,255,0.1);color:var(--blue)">U</div>
+          <div>
+            <div class="sidebar-item-name">Base URL</div>
+            <div class="sidebar-item-sub">api.minimax.io/anthropic</div>
+          </div>
+        </div>
+        <div class="status"><div class="dot green"></div></div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="sidebar-item-icon" style="background:rgba(255,136,68,0.1);color:var(--orange)">T</div>
+          <div>
+            <div class="sidebar-item-name">Timeout</div>
+            <div class="sidebar-item-sub">3.000.000ms</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">50min</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="sidebar-item-icon" style="background:rgba(170,102,255,0.1);color:var(--purple)">A</div>
+          <div>
+            <div class="sidebar-item-name">Agent Teams</div>
+            <div class="sidebar-item-sub">Experimental</div>
+          </div>
+        </div>
+        <div class="status"><div class="dot green"></div></div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="sidebar-item-icon" style="background:rgba(255,221,0,0.1);color:var(--yellow)">P</div>
+          <div>
+            <div class="sidebar-item-name">Permissions</div>
+            <div class="sidebar-item-sub">bypassPermissions</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">default</div>
+      </div>
+    </div>
+
+    <!-- Settings.json -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">~/.claude/settings.json</div>
+      <div style="padding:14px">
+        <div class="code-body" style="padding:0;font-size:11px;line-height:1.8">
+<span class="p">{</span>
+  <span class="s">"env"</span>: <span class="p">{</span>
+    <span class="v">"ANTHROPIC_BASE_URL"</span>:
+      <span class="s">"https://api.minimax.io/anthropic"</span>,
+    <span class="v">"ANTHROPIC_MODEL"</span>: <span class="s">"MiniMax-M2.7"</span>,
+    <span class="v">"API_TIMEOUT_MS"</span>: <span class="s">"3000000"</span>,
+    <span class="v">"CLAUDE_CODE_EXPERIMENTAL<br>_AGENT_TEAMS"</span>: <span class="s">"1"</span>
+  <span class="p">}</span>,
+  <span class="s">"permissions"</span>: <span class="p">{</span>
+    <span class="v">"defaultMode"</span>: <span class="s">"bypassPermissions"</span>
+  <span class="p">}</span>,
+  <span class="v">"skipDangerousMode<br>PermissionPrompt"</span>: <span class="k">true</span>
+<span class="p">}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paths críticos -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">📁 Paths Críticos</div>
+      <div class="sidebar-item" onclick="copyCmd(this, '~/.claude/settings.json')">
+        <div class="sidebar-item-left">
+          <div>
+            <div class="sidebar-item-name" style="font-family:var(--mono);font-size:11px">~/.claude/settings.json</div>
+            <div class="sidebar-item-sub">Config MiniMax + MCP</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">⚙️</div>
+      </div>
+      <div class="sidebar-item" onclick="copyCmd(this, '~/.claude/memory/memory.jsonl')">
+        <div class="sidebar-item-left">
+          <div>
+            <div class="sidebar-item-name" style="font-family:var(--mono);font-size:11px">~/.claude/memory/</div>
+            <div class="sidebar-item-sub">Knowledge graph persistente</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">🧠</div>
+      </div>
+      <div class="sidebar-item" onclick="copyCmd(this, '/srv/ops/terraform/cloudflare/')">
+        <div class="sidebar-item-left">
+          <div>
+            <div class="sidebar-item-name" style="font-family:var(--mono);font-size:11px">/srv/ops/terraform/</div>
+            <div class="sidebar-item-sub">IaC Cloudflare (18 recursos)</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">☁️</div>
+      </div>
+      <div class="sidebar-item" onclick="copyCmd(this, '/srv/monorepo/')">
+        <div class="sidebar-item-left">
+          <div>
+            <div class="sidebar-item-name" style="font-family:var(--mono);font-size:11px">/srv/monorepo/</div>
+            <div class="sidebar-item-sub">Stack principal</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">📦</div>
+      </div>
+      <div class="sidebar-item" onclick="copyCmd(this, '/home/will/.claude/.secrets')">
+        <div class="sidebar-item-left">
+          <div>
+            <div class="sidebar-item-name" style="font-family:var(--mono);font-size:11px">~/.claude/.secrets</div>
+            <div class="sidebar-item-sub">Infisical vault (MINIMAX_API_KEY)</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">🔐</div>
+      </div>
+      <div class="sidebar-item" onclick="copyCmd(this, '/home/will/zappro-lite/')">
+        <div class="sidebar-item-left">
+          <div>
+            <div class="sidebar-item-name" style="font-family:var(--mono);font-size:11px">~/zappro-lite/</div>
+            <div class="sidebar-item-sub">LiteLLM venv</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">🤖</div>
+      </div>
+      <div class="sidebar-item" onclick="copyCmd(this, '/srv/data/openclaw/')">
+        <div class="sidebar-item-left">
+          <div>
+            <div class="sidebar-item-name" style="font-family:var(--mono);font-size:11px">/srv/data/openclaw/</div>
+            <div class="sidebar-item-sub">OpenClaw bot (porta 4001)</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">🐾</div>
+      </div>
+      <div class="sidebar-item" onclick="copyCmd(this, '/srv/ops/ai-governance/GUARDRAILS.md')">
+        <div class="sidebar-item-left">
+          <div>
+            <div class="sidebar-item-name" style="font-family:var(--mono);font-size:11px">/srv/ops/ai-governance/</div>
+            <div class="sidebar-item-sub">GUARDRAILS.md (chattr+i)</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">🛡️</div>
+      </div>
+    </div>
+
+    <!-- Pendências -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">
+        <span>📋 Pendências</span>
+        <span class="tag red">7</span>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="dot yellow" style="flex-shrink:0"></div>
+          <div>
+            <div class="sidebar-item-name">aurelia-kokoro</div>
+            <div class="sidebar-item-sub">VRAM — unhealthy</div>
+          </div>
+        </div>
+        <div class="sidebar-item-val">🔥</div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="dot gray" style="flex-shrink:0"></div>
+          <div>
+            <div class="sidebar-item-name">git.zappro.site</div>
+            <div class="sidebar-item-sub">Falta ingress no Terraform</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="dot gray" style="flex-shrink:0"></div>
+          <div>
+            <div class="sidebar-item-name">bot.zappro.site</div>
+            <div class="sidebar-item-sub">Port 8080 sem bind</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="dot gray" style="flex-shrink:0"></div>
+          <div>
+            <div class="sidebar-item-name">access.tf</div>
+            <div class="sidebar-item-sub">Reativar Zero Trust</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="dot gray" style="flex-shrink:0"></div>
+          <div>
+            <div class="sidebar-item-name">cloudflare_tunnel</div>
+            <div class="sidebar-item-sub">Migrar recurso deprecado</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="dot gray" style="flex-shrink:0"></div>
+          <div>
+            <div class="sidebar-item-name">Webhook Gitea→Coolify</div>
+            <div class="sidebar-item-sub">Ainda não configurado</div>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-item">
+        <div class="sidebar-item-left">
+          <div class="dot gray" style="flex-shrink:0"></div>
+          <div>
+            <div class="sidebar-item-name">n8n antigo</div>
+            <div class="sidebar-item-sub">Remover /srv/data/coolify/</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diretivas -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-header">🧠 Diretivas (iamfakeguru)</div>
+      <div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;padding:8px 10px;background:var(--bg4);border-radius:6px;border-left:2px solid var(--purple);">Plan → output sem código até autorização</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;padding:8px 10px;background:var(--bg4);border-radius:6px;border-left:2px solid var(--blue);">Refactors >5 arquivos → agentes em paralelo</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;padding:8px 10px;background:var(--bg4);border-radius:6px;border-left:2px solid var(--red);">2 tentativas falharam → parar, investigar</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;padding:8px 10px;background:var(--bg4);border-radius:6px;border-left:2px solid var(--yellow);">/compact se contexto degradar</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.6;padding:8px 10px;background:var(--bg4);border-radius:6px;border-left:2px solid var(--green);">Código imperfeito → propor fix estrutural</div>
+      </div>
+    </div>
+
+  </div><!-- end sidebar -->
+
+</div><!-- end main -->
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <span>CLAUDE CODE PRO</span> — will-zappro · zappro.site · São Paulo BR · Atualizado 2026-04-04<br>
+  MiniMax-M2.7 via proxy · Claude Pro OAuth · Coolify 4.0.0-beta.470 PINADO · ZFS tank 3.46TB · RTX 4090
+</footer>
+
+<script>
+  function copyCmd(el, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = el.innerHTML;
+      if (el.classList.contains('skill-cmd') || el.classList.contains('alias-item')) {
+        el.classList.add('copied');
+        setTimeout(() => el.classList.remove('copied'), 1200);
+      } else if (el.classList.contains('copy-btn')) {
+        el.classList.add('copied');
+        setTimeout(() => el.classList.remove('copied'), 1200);
+      } else if (el.classList.contains('sidebar-item')) {
+        el.style.borderColor = 'rgba(0,255,136,0.4)';
+        setTimeout(() => el.style.borderColor = '', 800);
+      } else if (el.classList.contains('try-box')) {
+        const btn = el.querySelector('.copy-btn');
+        if (btn) { btn.classList.add('copied'); setTimeout(() => btn.classList.remove('copied'), 1200); }
+      }
+    });
+  }
+
+  function copyBlock(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1200);
+    });
+  }
+
+  // Tab switching
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // Skill card hover
+  document.querySelectorAll('.skill-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.skill-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    });
+  });
+
+  // Search focus on /
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+      e.preventDefault();
+      document.querySelector('.search-input').focus();
+    }
+  });
+
+  // Simple search filter
+  document.querySelector('.search-input').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('.skill-card').forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>

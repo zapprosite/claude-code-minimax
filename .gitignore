@@ -1,0 +1,45 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+*.tmp
+
+# Claude Code local (NÃO COPIAR)
+.claude/
+.mcp-data/
+
+# Secrets (NÃO COPIAR)
+*.secrets
+.secrets
+
+# Scripts locais
+scripts/local/
+
+# Generated files
+*.generated.*
+*smoke-tests.sh
+*curl-scripts.sh
+*pipeline.json
+*report.md
+
+# Backup
+backups/
+*.bak
+
+# Node (se usar)
+node_modules/
+package-lock.json
+
+# Python (se usar)
+__pycache__/
+*.pyc
+.env
