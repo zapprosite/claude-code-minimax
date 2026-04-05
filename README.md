@@ -30,7 +30,7 @@
 |----------|----------------|
 | **Models** | MiniMax M2.7 via proxy ($50) + Claude Pro OAuth ($20) |
 | **Agents** | 7 custom agents including `modo-dormir` (sleep mode scanner) |
-| **Skills** | 9 productivity skills (snapshot, deploy, secrets audit, etc) |
+| **Skills** | 13 productivity skills (snapshot, deploy, secrets audit, test coverage, etc) |
 | **Hooks** | 4 security hooks (Bash validation, Edit protection, Session logging) |
 | **MCP** | 7 MCP servers pre-configured (filesystem, git, github, tavily, etc) |
 | **Templates** | Project initialization template |
@@ -94,6 +94,11 @@ cm -p "Hello"
 | `--skill pipeline-gen` | `/pg` | Generates pipeline.json with phases + gates |
 | `--skill smoke-test-gen` | `/st` | Generates smoke tests + curl scripts |
 | `--skill human-gates` | `/hg` | Identifies human approval points |
+| `--skill skill-auditor` | `/sau` | Scans skills for security issues |
+| `--skill release-notes` | `/rn` | Auto-generates changelog from git |
+| `--skill devops-pipeline` | `/dp` | Generates CI/CD + pre-commit hooks |
+| `--skill test-coverage` | `/tc` | Finds untested branches, generates tests |
+| `--skill oss-ready` | `/oss` | Generates README, CONTRIBUTING, LICENSE |
 
 ---
 

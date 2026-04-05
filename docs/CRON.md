@@ -19,6 +19,9 @@
 |------------|---------|-----|-----------|
 | Diário | 02:00 | Backup memory | Faz backup do SQLite |
 | Diário | 03:00 | **Modo Dormir** | Escaneia repo, gera pipeline |
+| Diário | 04:00 | **Code Review** | Review do monorepo |
+| Diário | 05:00 | **Test Coverage** | Verifica coverage, gera testes |
+| Diário | 06:00 | **Secrets Audit** | Varredura completa de secrets |
 | Diário | 08:00 | MCP health | Verifica 7 MCP servers |
 | Semanal | Domingo 03:00 | Context prune | Limpa sessões antigas |
 | Semanal | Quarta 09:00 | Secrets audit | Varredura de secrets |
@@ -57,6 +60,24 @@ crontab -e
 # CUSTO: ~$5-10 em tokens MiniMax
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 0 3 * * * cm --agent modo-dormir "scan /srv/monorepo" >> ~/.claude/logs/modo-dormir.log 2>&1
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DIÁRIO — Code Review (4h) ⭐
+# Review automático do monorepo
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+0 4 * * * cm --agent review-zappro "review /srv/monorepo" >> ~/.claude/logs/code-review.log 2>&1
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DIÁRIO — Test Coverage (5h) ⭐
+# Verifica coverage e gera testes faltantes
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+0 5 * * * cm --skill test-coverage /srv/monorepo >> ~/.claude/logs/test-coverage.log 2>&1
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# DIÁRIO — Secrets Audit (6h) ⭐
+# Varredura completa de secrets exposés
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+0 6 * * * cm --skill secrets-audit /srv/monorepo >> ~/.claude/logs/secrets-audit.log 2>&1
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # DIÁRIO — MCP health check (8h)
