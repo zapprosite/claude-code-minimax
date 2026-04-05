@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/MiniMax-M2.7-00ff88?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0id2hpdGUiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIyMCIgZmlsbD0iIzAwZmY4OCIvPjwvc3ZnPg==&logoColor=white" alt="MiniMax M2.7"/>
   <img src="https://img.shields.io/badge/Claude%20Pro-ff6644?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Pro"/>
   <img src="https://img.shields.io/badge/7-Agents-4488ff?style=for-the-badge" alt="Agents"/>
-  <img src="https://img.shields.io/badge/14-Skills-aa66ff?style=for-the-badge" alt="Skills"/>
+  <img src="https://img.shields.io/badge/15-Skills-aa66ff?style=for-the-badge" alt="Skills"/>
   <img src="https://img.shields.io/badge/Cron-00ccff?style=for-the-badge" alt="Cron Automation"/>
   <img src="https://img.shields.io/badge/7-MCPs-f59e0b?style=for-the-badge" alt="MCP Servers"/>
 </p>
@@ -81,6 +81,7 @@ cm -p "Hello"
 | `--skill test-coverage` | `/tc` | Find untested branches, generate tests |
 | `--skill oss-ready` | `/oss` | Generate README, CONTRIBUTING, LICENSE |
 | `--skill skill-creator` | `/sc` | Interactive 4-phase skill builder |
+| `--skill auto-memory` | `/am` | Auto checkpoint, compress, semantic search |
 
 ---
 
