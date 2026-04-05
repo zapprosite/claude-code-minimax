@@ -925,12 +925,20 @@
   <div class="agent-chip"><div class="agent-dot" style="background:#ff66aa"></div>Kokoro TTS</div>
   <div class="agent-chip"><div class="agent-dot" style="background:#66ffee"></div>Infisical</div>
   <div class="agent-chip"><div class="agent-dot" style="background:#ffaa00"></div>OpenClaw</div>
+  <span class="agents-label" style="margin-left:8px">Agents</span>
+  <div class="agent-chip" title="/agent modo-dormir"><div class="agent-dot" style="background:#00ff88"></div>/md</div>
+  <div class="agent-chip" title="/agent review-zappro"><div class="agent-dot" style="background:#4488ff"></div>/rr</div>
+  <div class="agent-chip" title="/agent security-audit"><div class="agent-dot" style="background:#ff4444"></div>/sa</div>
+  <div class="agent-chip" title="/agent deploy-check"><div class="agent-dot" style="background:#ffdd00"></div>/dc</div>
+  <div class="agent-chip" title="/agent context-optimizer"><div class="agent-dot" style="background:#aa66ff"></div>/co</div>
+  <div class="agent-chip" title="/agent repo-onboard"><div class="agent-dot" style="background:#00ccff"></div>/ro</div>
+  <div class="agent-chip" title="/agent executive-ceo"><div class="agent-dot" style="background:#ff8844"></div>/ec</div>
 </div>
 
 <!-- ═══════════════ TABS ═══════════════ -->
 <div style="max-width:1100px;margin:0 auto;">
   <div class="tabs">
-    <div class="tab active">All Time (42)</div>
+    <div class="tab active">All Time (51)</div>
     <div class="tab">Trending (24h)</div>
     <div class="tab">Iniciante</div>
     <div class="tab">GitOps</div>
@@ -1630,6 +1638,114 @@ alias cdr='claude --doctor'`)">
       </table>
     </div>
 
+    <!-- ─── AGENTS ─── -->
+    <div class="section-divider"></div>
+    <div class="section" id="agents">
+      <div class="section-label">08 — Agents (2 letras)</div>
+      <div class="section-title">🤖 Agents + Skills</div>
+      <p class="section-subtitle">Comandos abreviados. Digite no Claude Code.</p>
+
+      <!-- AGENTS GRID -->
+      <div class="alias-grid" style="margin-bottom:24px">
+        <div class="alias-item" onclick="copyCmd(this, '/agent modo-dormir')">
+          <div class="alias-key">/md</div>
+          <div class="alias-val">modo-dormir — escaneia repo dormindo</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '/agent review-zappro')">
+          <div class="alias-key">/rr</div>
+          <div class="alias-val">review-zappro — code review</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '/agent security-audit')">
+          <div class="alias-key">/sa</div>
+          <div class="alias-val">security-audit — análise OWASP</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '/agent deploy-check')">
+          <div class="alias-key">/dc</div>
+          <div class="alias-val">deploy-check — snapshot + health</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '/agent context-optimizer')">
+          <div class="alias-key">/co</div>
+          <div class="alias-val">context-optimizer — otimiza contexto</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '/agent repo-onboard')">
+          <div class="alias-key">/ro</div>
+          <div class="alias-val">repo-onboard — inicializa repo</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '/agent executive-ceo')">
+          <div class="alias-key">/ec</div>
+          <div class="alias-val">executive-ceo — decisões estratégicas</div>
+        </div>
+      </div>
+
+      <!-- SKILLS GRID -->
+      <div class="section-label" style="margin-top:24px">09 — Skills (2 letras)</div>
+      <div class="alias-grid">
+        <div class="alias-item" onclick="copyCmd(this, '--skill snapshot-safe')">
+          <div class="alias-key">/ss</div>
+          <div class="alias-val">snapshot-safe — snapshot ZFS</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '--skill deploy-validate')">
+          <div class="alias-key">/dv</div>
+          <div class="alias-val">deploy-validate — valida deploy</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '--skill context-prune')">
+          <div class="alias-key">/cp</div>
+          <div class="alias-val">context-prune — limpa sessões</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '--skill secrets-audit')">
+          <div class="alias-key">/sec</div>
+          <div class="alias-val">secrets-audit — varredura secrets</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '--skill mcp-health')">
+          <div class="alias-key">/mcp</div>
+          <div class="alias-val">mcp-health — diagnóstico MCP</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '--skill repo-scan')">
+          <div class="alias-key">/rs</div>
+          <div class="alias-val">repo-scan — detecta tasks</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '--skill pipeline-gen')">
+          <div class="alias-key">/pg</div>
+          <div class="alias-val">pipeline-gen — gera pipeline</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '--skill smoke-test-gen')">
+          <div class="alias-key">/st</div>
+          <div class="alias-val">smoke-test-gen — gera testes</div>
+        </div>
+        <div class="alias-item" onclick="copyCmd(this, '--skill human-gates')">
+          <div class="alias-key">/hg</div>
+          <div class="alias-val">human-gates — ver approvals</div>
+        </div>
+      </div>
+
+      <!-- EXEMPLES -->
+      <div class="code-block" style="margin-top:24px">
+        <div class="code-header">
+          <span class="code-title">Exemplos rápidos</span>
+        </div>
+        <div class="code-body">
+<span class="c"># Escaneear projeto dormindo</span>
+<span class="f">/md</span> scan ~/Desktop/projeto
+
+<span class="c"># Code review rápido</span>
+<span class="f">/rr</span> revisar esse código
+
+<span class="c"># Snapshot antes de mudar</span>
+<span class="f">/ss</span> antes de atualizar Docker
+
+<span class="c"># Verificar MCP</span>
+<span class="f">/mcp</span>
+
+<span class="c"># Secrets audit</span>
+<span class="f">/sec</span> antes de commitar
+
+<span class="c"># Detectar tasks</span>
+<span class="f">/rs</span> /caminho/para/repo
+        </div>
+      </div>
+
+    </div>
+
   </div><!-- end left -->
 
   <!-- ══════ RIGHT SIDEBAR ══════ -->
@@ -1882,8 +1998,8 @@ alias cdr='claude --doctor'`)">
 
 <!-- ═══════════════ FOOTER ═══════════════ -->
 <footer>
-  <span>CLAUDE CODE PRO</span> — will-zappro · zappro.site · São Paulo BR · Atualizado 2026-04-04<br>
-  MiniMax-M2.7 via proxy · Claude Pro OAuth · Coolify 4.0.0-beta.470 PINADO · ZFS tank 3.46TB · RTX 4090
+  <span>CLAUDE CODE PRO</span> — will-zappro · zappro.site · São Paulo BR · Atualizado 2026-04-05<br>
+  MiniMax-M2.7 via proxy · Claude Pro OAuth · 7 Agents · 9 Skills · Mode Dormir · Coolify 4.0.0-beta.470 PINADO · ZFS tank 3.46TB · RTX 4090
 </footer>
 
 <script>
