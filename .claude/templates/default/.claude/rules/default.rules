@@ -1,0 +1,67 @@
+# Decision Matrix — Default Rules
+
+## Quick Rules
+
+### ✅ SAFE (No approval needed)
+- Read-only operations (logs, status, inspection)
+- Backups and snapshots
+- Documentation updates
+- Application development in /srv/monorepo
+- Running tests
+
+### ⚠️ REQUIRES APPROVAL
+- Service restart/stop/down
+- Package installation/upgrade
+- ZFS operations
+- Config file edits (/etc)
+- Firewall changes
+- Network modifications
+- Adding ports or subdomains
+- Deleting files
+
+### ❌ FORBIDDEN
+- Disk wipe operations (wipefs, dd)
+- Delete /srv/data, /srv/backups, /srv/docker-data
+- ZFS pool destruction
+- Reboot/poweroff without plan
+- Exposing ports publicly without documentation
+- Using a port without checking PORTS.md first
+- Adding a subdomain without checking SUBDOMAINS.md first
+- Committing secrets to git
+
+## Decision Flow
+
+```
+Is this read-only?
+  → YES: SAFE to execute
+  → NO: Continue
+
+Does this change system state?
+  → YES: Requires approval or continue with caution
+  → NO: Continue
+
+Is this explicitly forbidden?
+  → YES: NEVER execute
+  → NO: Continue
+
+Is this touching /srv/data?
+  → YES: Snapshot first, then proceed
+  → NO: Continue
+
+Does this open a port?
+  → YES: Read PORTS.md first
+  → NO: Continue
+
+Does this add a subdomain?
+  → YES: Read SUBDOMAINS.md first
+  → NO: Execute
+```
+
+## Risk Levels
+
+| Level | Criteria | Action |
+|-------|----------|--------|
+| LOW | Read-only, no system change | Execute freely |
+| MEDIUM | Changes local state, reversible | Proceed with caution, document |
+| HIGH | System-wide, irreversible | Requires approval |
+| CRITICAL | Destruction, exposure | NEVER without explicit approval |
