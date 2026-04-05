@@ -1,287 +1,256 @@
 # Claude Code MiniMax Setup
 
-### One-Command Setup for Claude Code with MiniMax M2.7 — $50/month
+### One-Command Setup for Claude Code with MiniMax M2.7 + Claude Pro OAuth
 
 <p align="center">
-  <img src="https://img.shields.io/badge/MiniMax-M2.7-00ff88?style=for-the-badge&logo=anthropic&logoColor=white" alt="MiniMax">
-  <img src="https://img.shields.io/badge/Claude%20Code-Pro-ff6644?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Pro">
-  <img src="https://img.shields.io/badge/7-Agents-4488ff?style=for-the-badge" alt="Agents">
-  <img src="https://img.shields.io/badge/9-Skills-aa66ff?style=for-the-badge" alt="Skills">
-  <img src="https://img.shields.io/badge/Modo-Dormir-00ccff?style=for-the-badge" alt="Modo Dormir">
+  <img src="https://img.shields.io/badge/MiniMax-M2.7-00ff88?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0id2hpdGUiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIyMCIgZmlsbD0iIzAwZmY4OCIvPjwvc3ZnPg==&logoColor=white" alt="MiniMax M2.7"/>
+  <img src="https://img.shields.io/badge/Claude%20Pro-ff6644?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Pro"/>
+  <img src="https://img.shields.io/badge/7-Agents-4488ff?style=for-the-badge" alt="Agents"/>
+  <img src="https://img.shields.io/badge/14-Skills-aa66ff?style=for-the-badge" alt="Skills"/>
+  <img src="https://img.shields.io/badge/Cron-00ccff?style=for-the-badge" alt="Cron Automation"/>
+  <img src="https://img.shields.io/badge/7-MCPs-f59e0b?style=for-the-badge" alt="MCP Servers"/>
 </p>
 
 <p align="center">
   <a href="https://github.com/zapprosite/claude-code-minimax/stargazers">
-    <img src="https://img.shields.io/github/stars/zapprosite/claude-code-minimax?style=flat-square&color=ffdd00" alt="Stars">
+    <img src="https://img.shields.io/github/stars/zapprosite/claude-code-minimax?style=flat-square&color=ffdd00" alt="Stars"/>
+  </a>
+  <a href="https://github.com/zapprosite/claude-code-minimax/network/members">
+    <img src="https://img.shields.io/github/forks/zapprosite/claude-code-minimax?style=flat-square&color=00ff88" alt="Forks"/>
   </a>
   <a href="https://github.com/zapprosite/claude-code-minimax/issues">
-    <img src="https://img.shields.io/github/issues/zapprosite/claude-code-minimax?style=flat-square&color=00ff88" alt="Issues">
+    <img src="https://img.shields.io/github/issues/zapprosite/claude-code-minimax?style=flat-square&color=ff6644" alt="Issues"/>
   </a>
-  <a href="https://github.com/zapprosite/claude-code-minimax/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/zapprosite/claude-code-minimax?style=flat-square" alt="License">
-  </a>
+  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"/>
 </p>
 
 ---
 
-## ✨ What You Get
-
-| Category | What's Included |
-|----------|----------------|
-| **Models** | MiniMax M2.7 via proxy ($50) + Claude Pro OAuth ($20) |
-| **Agents** | 7 custom agents including `modo-dormir` (sleep mode scanner) |
-| **Skills** | 13 productivity skills (snapshot, deploy, secrets audit, test coverage, etc) |
-| **Hooks** | 4 security hooks (Bash validation, Edit protection, Session logging) |
-| **MCP** | 7 MCP servers pre-configured (filesystem, git, github, tavily, etc) |
-| **Templates** | Project initialization template |
-| **Dashboard** | Web dashboard with all commands |
-
----
-
-## 🚀 Quick Start
+## ⚡ 30-Second Setup
 
 ```bash
 # Clone
 git clone https://github.com/zapprosite/claude-code-minimax.git
 cd claude-code-minimax
 
-# Copy to home
+# Install (copies everything to ~/.claude/)
 cp -r .claude ~/
-cp -r .claude/scripts ~/
+mkdir -p ~/.mcp-data/memory-keeper ~/.claude/logs ~/.claude/pipelines
 
-# Create directories
-mkdir -p ~/.mcp-data/memory-keeper
-mkdir -p ~/.claude/pipelines
-
-# Add to ~/.bashrc (MINIMAX_API_KEY=your_key)
-echo 'export MINIMAX_API_KEY="your_key"' >> ~/.bashrc
-echo 'export MINIMAX_API_KEY="your_key"' >> ~/.claude/.secrets
+# Add API key
+echo 'export MINIMAX_API_KEY="your_key_here"' >> ~/.claude/.secrets
 chmod 600 ~/.claude/.secrets
 
-# Reload shell
+# Reload & test
 source ~/.bashrc
-
-# Test
 cm -p "Hello"
 ```
 
 ---
 
-## 🤖 Agents
+## 🤖 7 Custom Agents
 
-| Command | Alias | Description |
+| Command | Alias | What It Does |
 |---------|-------|-------------|
-| `/agent modo-dormir` | `/md` | Scans repo while you sleep, generates pipeline + tests |
+| `/agent modo-dormir` | `/md` | 🔥 Scan repos while you sleep — generates pipeline + tests |
 | `/agent review-zappro` | `/rr` | Deep code review with security focus |
 | `/agent security-audit` | `/sa` | OWASP Top 10 + secrets detection |
-| `/agent deploy-check` | `/dc` | Snapshot + health check + rollback plan |
-| `/agent context-optimizer` | `/co` | Analyzes context window, suggests compression |
-| `/agent repo-onboard` | `/ro` | Initializes new repo with template |
-| `/agent executive-ceo` | `/ec` | Strategic decision-making agent |
+| `/agent deploy-check` | `/dc` | Snapshot + health check + rollback |
+| `/agent context-optimizer` | `/co` | Optimize context window usage |
+| `/agent repo-onboard` | `/ro` | Bootstrap new repos with template |
+| `/agent executive-ceo` | `/ec` | Strategic architecture decisions |
 
 ---
 
-## ⚙️ Skills
+## ⚙️ 13 Productivity Skills
 
-| Command | Alias | Description |
+| Command | Alias | What It Does |
 |---------|-------|-------------|
 | `--skill snapshot-safe` | `/ss` | ZFS snapshot with preflight checklist |
-| `--skill deploy-validate` | `/dv` | Pre-deploy health check + rollback |
-| `--skill context-prune` | `/cp` | Cleans old memory-keeper sessions |
-| `--skill secrets-audit` | `/sec` | Scans for exposed secrets before git push |
-| `--skill mcp-health` | `/mcp` | Diagnoses all 7 MCP servers |
-| `--skill repo-scan` | `/rs` | Detects tasks in TASKMASTER, ADR, slices, TODO |
-| `--skill pipeline-gen` | `/pg` | Generates pipeline.json with phases + gates |
-| `--skill smoke-test-gen` | `/st` | Generates smoke tests + curl scripts |
-| `--skill human-gates` | `/hg` | Identifies human approval points |
-| `--skill skill-auditor` | `/sau` | Scans skills for security issues |
-| `--skill release-notes` | `/rn` | Auto-generates changelog from git |
-| `--skill devops-pipeline` | `/dp` | Generates CI/CD + pre-commit hooks |
-| `--skill test-coverage` | `/tc` | Finds untested branches, generates tests |
-| `--skill oss-ready` | `/oss` | Generates README, CONTRIBUTING, LICENSE |
+| `--skill deploy-validate` | `/dv` | Pre-deploy health validation |
+| `--skill context-prune` | `/cp` | Clean old memory-keeper sessions |
+| `--skill secrets-audit` | `/sec` | Scan for exposed secrets |
+| `--skill mcp-health` | `/mcp` | Diagnose all MCP servers |
+| `--skill repo-scan` | `/rs` | Detect tasks in TASKMASTER/ADR/slices |
+| `--skill pipeline-gen` | `/pg` | Generate pipeline.json |
+| `--skill smoke-test-gen` | `/st` | Generate smoke tests + curl scripts |
+| `--skill human-gates` | `/hg` | Identify approval blockers |
+| `--skill skill-auditor` | `/sau` | Scan skills for security issues |
+| `--skill release-notes` | `/rn` | Auto-changelog from git history |
+| `--skill devops-pipeline` | `/dp` | Generate CI/CD + pre-commit hooks |
+| `--skill test-coverage` | `/tc` | Find untested branches, generate tests |
+| `--skill oss-ready` | `/oss` | Generate README, CONTRIBUTING, LICENSE |
+| `--skill skill-creator` | `/sc` | Interactive 4-phase skill builder |
 
 ---
 
-## 🔌 MCP Servers (7 Pre-configured)
+## 🔌 7 Pre-configured MCP Servers
 
-| Server | Package | Purpose |
-|--------|---------|---------|
-| `filesystem` | @j0hanz/filesystem-mcp | Advanced file operations |
-| `git` | @cyanheads/git-mcp-server | Complete Git integration |
-| `context7` | @upstash/context7-mcp | Code context for any codebase |
-| `memory-keeper` | mcp-memory-keeper | Persistent SQLite knowledge graph |
-| `github` | @modelcontextprotocol/server-github | Issues + PRs + repos |
-| `playwright` | chrome-devtools-mcp | Browser automation + screenshots |
-| `tavily` | @modelcontextprotocol/server-tavily | Web search |
-
----
-
-## 🌙 Modo Dormir — Sleep Mode
-
-The star feature: set it and forget it.
-
-```bash
-# Scan any repo while you sleep
-/agent modo-dormir scan /path/to/repo
-
-# Next morning, check results:
-ls ~/.claude/pipelines/
+```
+filesystem  → Advanced file ops
+git         → Full Git integration  
+context7    → Codebase context
+memory-keeper → Persistent SQLite knowledge graph
+github      → Issues + PRs + repos
+playwright  → Browser automation
+tavily      → Web search
 ```
 
-### What It Does
+---
 
-1. **Detects formats**: TASKMASTER, PRD, ADR, slices, TODO, TURBO, GitHub Issues
-2. **Generates pipeline**: phases with human approval gates
-3. **Creates tests**: smoke tests + curl scripts
-4. **Reports**: what you need to approve vs what it can do alone
+## ⏰ Automated Cron Jobs
 
-### Example Output
+Everything runs automatically while you sleep:
 
-```json
-{
-  "phases": [
-    {"name": "fase1_auth", "tasks": ["CRM-001"], "agent": "builder", "human_gate": false},
-    {"name": "fase2_leads", "tasks": ["CRM-002"], "agent": "builder", "human_gate": true, "gate_reason": "needs-approval"}
-  ],
-  "smoke_tests": [...],
-  "human_gates_summary": {"total": 5, "by_type": {"approval": 2, "security": 1}}
-}
+```cron
+# 02:00 — Backup memory
+# 03:00 — 🔥 Modo Dormir (scan repo, generate pipeline)
+# 04:00 — Code review
+# 05:00 — Test coverage check
+# 06:00 — Secrets audit
+```
+
+---
+
+## 🌙 Modo Dormir — The Star Feature
+
+```bash
+# Run before sleep
+/md scan /srv/monorepo
+
+# Wake up to:
+~/.claude/pipelines/
+├── monorepo-20260405-pipeline.json    # Phases + human gates
+├── monorepo-20260405-smoke-tests.sh  # Ready to run
+├── monorepo-20260405-curl-scripts.sh
+└── monorepo-20260405-report.md         # Summary
 ```
 
 ---
 
 ## 📊 Cost Breakdown
 
-| Service | Monthly Cost | Use Case |
-|---------|-------------|----------|
-| MiniMax M2.7 | $50 | Primary model for daily tasks |
-| Claude Pro OAuth | $20 | Backup + complex reasoning |
-| Claude Code Pro | $20 | CLI tool (optional) |
-| **Total** | **~$70-90/mo** | Full setup |
+| Service | Monthly | Use |
+|---------|---------|-----|
+| MiniMax M2.7 | $50 | Primary model (daily tasks) |
+| Claude Pro OAuth | $20 | Complex reasoning backup |
+| Claude Code Pro | $20 | CLI tool |
+| **Total** | **~$90/mo** | Full setup |
 
-> 💡 **MiniMax is 10x cheaper** than Opus for most tasks while maintaining 90% quality.
+> 💡 MiniMax delivers **90% of Opus quality at 10% of the cost**
 
 ---
 
-## 📁 Repository Structure
+## 🎯 Daily Workflows
 
-```
-claude-code-minimax/
-├── .claude/
-│   ├── settings.json          # MiniMax + MCP config
-│   ├── CLAUDE.md             # Your global directives
-│   ├── agents/               # 7 custom agents
-│   │   ├── modo-dormir.md
-│   │   ├── review-zappro.md
-│   │   ├── security-audit.md
-│   │   ├── deploy-check.md
-│   │   ├── context-optimizer.md
-│   │   ├── repo-onboard.md
-│   │   └── executive-ceo.md
-│   ├── skills/               # 9 skills
-│   │   ├── snapshot-safe.md
-│   │   ├── deploy-validate.md
-│   │   ├── context-prune.md
-│   │   ├── secrets-audit.md
-│   │   ├── mcp-health.md
-│   │   ├── repo-scan.md
-│   │   ├── pipeline-gen.md
-│   │   ├── smoke-test-gen.md
-│   │   └── human-gates.md
-│   ├── rules/                # 4 hooks
-│   │   ├── PreToolUse-Bash-validate.bash
-│   │   ├── PreToolUse-Edit-validate.bash
-│   │   ├── Stop-session-log.bash
-│   │   └── Stop-modo-dormir.bash
-│   ├── scripts/              # Utility scripts
-│   │   ├── env-wrapper.sh   # Infisical vault integration
-│   │   └── backup-memory.sh
-│   └── templates/            # Project templates
-│       └── default/.claude/
-├── docs/
-│   ├── painel-dashboard.html # Web dashboard
-│   ├── SETUP.md             # Detailed installation
-│   ├── GUIA-RAPIDO.md       # Quick reference (Portuguese)
-│   ├── ALIASES.md           # Alias commands
-│   ├── FORMATOS.md          # Supported task formats
-│   └── PIPELINE.md          # Pipeline.json guide
-├── README.md
-├── SETUP.md
-├── GUIA-RAPIDO.md
-├── ALIASES.md
-└── LICENSE
+```bash
+# Morning standup
+/cm "health check"    # System status
+
+# Development
+/sec                # Before git push
+/mcp                 # MCP servers OK?
+/tc                  # Test coverage
+
+# Code quality
+/rr                  # Full review
+/sa                  # Security audit
+
+# Sleep mode
+/md scan ~/projects  # Scan while sleeping
 ```
 
 ---
 
-## 🎯 Common Workflows
+## 📁 What's Included
 
-### Daily Development
-```bash
-cm "Implement auth JWT"           # MiniMax
-/sec                               # Before commit
-/mcp                               # Check MCP servers
 ```
+.claude/
+├── settings.json          # MiniMax + 7 MCP servers
+├── CLAUDE.md             # Your global directives
+├── agents/               # 7 custom agents
+│   ├── modo-dormir.md   # 🔥 THE MAIN FEATURE
+│   ├── review-zappro.md
+│   ├── security-audit.md
+│   ├── deploy-check.md
+│   ├── context-optimizer.md
+│   ├── repo-onboard.md
+│   └── executive-ceo.md
+├── skills/               # 13 skills
+│   ├── repo-scan.md
+│   ├── pipeline-gen.md
+│   ├── smoke-test-gen.md
+│   ├── human-gates.md
+│   ├── skill-auditor.md
+│   ├── release-notes.md
+│   ├── devops-pipeline.md
+│   ├── test-coverage.md
+│   ├── oss-ready.md
+│   └── skill-creator.md
+├── rules/                # 4 hooks
+│   ├── PreToolUse-Bash-validate.bash
+│   ├── PreToolUse-Edit-validate.bash
+│   ├── Stop-session-log.bash
+│   └── Stop-modo-dormir.bash
+├── scripts/              # Utilities
+│   ├── env-wrapper.sh
+│   └── backup-memory.sh
+└── templates/            # Project bootstrap
+    └── default/.claude/
 
-### Code Review
-```bash
-/rr                                # Full review
-/sa                                # Security audit
-```
-
-### Deploy
-```bash
-/dc                                # Deploy check
-/ss                                # Snapshot
-/dv                                # Validate
-```
-
-### Sleep Mode
-```bash
-/md scan ~/projects/my-app        # Scan while sleeping
+docs/
+├── painel-dashboard.html  # Web dashboard
+├── SETUP.md              # Full installation guide
+├── GUIA-RAPIDO.md        # Portuguese quick ref
+├── ALIASES.md            # All 2-letter aliases
+├── CRON.md              # Cron setup guide
+├── FORMATOS.md           # Task formats
+└── PIPELINE.md          # Pipeline guide
 ```
 
 ---
 
-## 🔐 Security
+## 🔐 Security Built-In
 
-- API keys stored in `~/.claude/.secrets` (never committed)
-- Pre-tool hooks block dangerous commands
-- Secrets audit before every git push
-- Edit protection for immutable files
+- ✅ API keys in `~/.claude/.secrets` (never committed)
+- ✅ Pre-tool hooks block dangerous commands
+- ✅ Secrets audit before every push
+- ✅ Edit protection for immutable files
+- ✅ Skill auditor scans for prompt injection
 
 ---
 
-## 📖 Documentation
+## 📖 Docs
 
-| File | Language | Description |
-|------|----------|-------------|
-| `README.md` | 🇺🇸 EN | This file |
-| `SETUP.md` | 🇺🇸 EN | Detailed installation guide |
-| `GUIA-RAPIDO.md` | 🇧🇷 PT | Quick reference (Portuguese) |
-| `ALIASES.md` | 🇧🇷 PT | All command aliases |
-| `docs/FORMATOS.md` | 🇧🇷 PT | Supported task formats |
-| `docs/PIPELINE.md` | 🇧🇷 PT | Pipeline.json guide |
+| Doc | Language | What It Is |
+|-----|----------|-------------|
+| `README.md` | 🇺🇸 | This file |
+| `SETUP.md` | 🇺🇸 | Full installation guide |
+| `GUIA-RAPIDO.md` | 🇧🇷 | Quick reference (PT) |
+| `ALIASES.md` | 🇧🇷 | All 2-letter commands |
+| `CRON.md` | 🇧🇷 | Cron automation guide |
+| `docs/FORMATOS.md` | 🇧🇷 | Task detection formats |
+| `docs/PIPELINE.md` | 🇧🇷 | Pipeline.json guide |
 
 ---
 
 ## 🤝 Contributing
 
 1. Fork it
-2. Create your feature branch (`git checkout -b feature/amazing`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing`)
-5. Open a Pull Request
+2. Create branch: `git checkout -b feature/amazing`
+3. Commit: `git commit -m "feat: Add amazing"`
+4. Push: `git push origin feature/amazing`
+5. PR on GitHub
 
 ---
 
-## 📝 License
+## 📜 License
 
-MIT License - do whatever you want with it.
+MIT — Use it, modify it, share it.
 
 ---
 
 <p align="center">
-  <b>Star ⭐ if this was useful</b><br>
-  <sub>Setup Claude Code in 10 minutes, not 10 hours</sub>
+  <b>⭐ Star this repo if it was useful</b><br>
+  <sub>Setup in 10 minutes, not 10 hours</sub>
 </p>
