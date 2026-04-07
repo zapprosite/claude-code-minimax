@@ -1,0 +1,11 @@
+{
+  "enabledMcpjsonServers": [
+    "filesystem",
+    "git",
+    "context7",
+    "memory-keeper",
+    "github",
+    "playwright",
+    "tavily"
+  ]
+}

@@ -5,8 +5,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/MiniMax-M2.7-00ff88?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0id2hpdGUiLz48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIyMCIgZmlsbD0iIzAwZmY4OCIvPjwvc3ZnPg==&logoColor=white" alt="MiniMax M2.7"/>
   <img src="https://img.shields.io/badge/Claude%20Pro-ff6644?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude Pro"/>
-  <img src="https://img.shields.io/badge/7-Agents-4488ff?style=for-the-badge" alt="Agents"/>
-  <img src="https://img.shields.io/badge/15-Skills-aa66ff?style=for-the-badge" alt="Skills"/>
+  <img src="https://img.shields.io/badge/10-Agents-4488ff?style=for-the-badge" alt="Agents"/>
+  <img src="https://img.shields.io/badge/24-Skills-aa66ff?style=for-the-badge" alt="Skills"/>
   <img src="https://img.shields.io/badge/Cron-00ccff?style=for-the-badge" alt="Cron Automation"/>
   <img src="https://img.shields.io/badge/7-MCPs-f59e0b?style=for-the-badge" alt="MCP Servers"/>
 </p>
@@ -48,7 +48,7 @@ cm -p "Hello"
 
 ---
 
-## 🤖 7 Custom Agents
+## 🤖 7 Custom Agents (Local)
 
 | Command | Alias | What It Does |
 |---------|-------|-------------|
@@ -60,9 +60,19 @@ cm -p "Hello"
 | `/agent repo-onboard` | `/ro` | Bootstrap new repos with template |
 | `/agent executive-ceo` | `/ec` | Strategic architecture decisions |
 
+### 🔬 Enterprise Agents (via agent-skills)
+
+These are loaded from `~/.claude/agent-skills/` (addyosmani/agent-skills):
+
+| Command | What It Does |
+|---------|-------------|
+| `/agent code-reviewer` | 5-axis code review (correctness, readability, architecture, security, performance) |
+| `/agent test-engineer` | Test strategy + coverage analysis |
+| `/agent security-auditor` | Deep security vulnerability scanning |
+
 ---
 
-## ⚙️ 13 Productivity Skills
+## ⚙️ 17 Productivity Skills
 
 | Command | Alias | What It Does |
 |---------|-------|-------------|
@@ -83,13 +93,39 @@ cm -p "Hello"
 | `--skill skill-creator` | `/sc` | Interactive 4-phase skill builder |
 | `--skill auto-memory` | `/am` | Auto checkpoint, compress, semantic search |
 
+### 🔬 Enterprise Skills (via agent-skills)
+
+Loaded from `~/.claude/agent-skills/skills/`:
+
+| Skill | When To Use |
+|-------|-------------|
+| `spec-driven-development` | Start project/feature with vague requirements |
+| `planning-and-task-breakdown` | Plan implementation steps |
+| `incremental-implementation` | Build in small verifiable steps |
+| `test-driven-development` | TDD, Prove-It Pattern for bugs |
+| `code-review-and-quality` | Pre-merge quality check |
+| `debugging-and-error-recovery` | 5-step debugging triage |
+| `security-and-hardening` | Security audit |
+| `shipping-and-launch` | Deploy and release |
+| `context-engineering` | Optimize context window usage |
+| `performance-optimization` | Find and fix bottlenecks |
+| `git-workflow-and-versioning` | Git best practices |
+| `documentation-and-adrs` | Write ADRs and docs |
+| `frontend-ui-engineering` | React/UI development |
+| `browser-testing-with-devtools` | Playwright browser automation |
+| `ci-cd-and-automation` | CI/CD pipelines |
+| `api-and-interface-design` | API design patterns |
+| `deprecation-and-migration` | Deprecation planning |
+| `idea-refine` | Refine ideas before implementation |
+| `using-agent-skills` | How to use agent-skills system |
+
 ---
 
 ## 🔌 7 Pre-configured MCP Servers
 
 ```
 filesystem  → Advanced file ops
-git         → Full Git integration  
+git         → Full Git integration
 context7    → Codebase context
 memory-keeper → Persistent SQLite knowledge graph
 github      → Issues + PRs + repos
@@ -167,9 +203,20 @@ Everything runs automatically while you sleep:
 
 ```
 .claude/
-├── settings.json          # MiniMax + 7 MCP servers
+├── settings.json          # MiniMax config (reads ${MINIMAX_API_KEY} from env)
+├── settings.local.json     # MCP servers enabled list
 ├── CLAUDE.md             # Your global directives
-├── agents/               # 7 custom agents
+├── agent-skills/          # ⭐ addyosmani/agent-skills (24 skills + 3 agents)
+│   ├── agents/
+│   │   ├── code-reviewer.md
+│   │   ├── test-engineer.md
+│   │   └── security-auditor.md
+│   └── skills/           # 19 enterprise skills
+│       ├── spec-driven-development.md
+│       ├── test-driven-development.md
+│       ├── planning-and-task-breakdown.md
+│       └── ... (16 more)
+├── agents/               # 7 custom agents (zappro)
 │   ├── modo-dormir.md   # 🔥 THE MAIN FEATURE
 │   ├── review-zappro.md
 │   ├── security-audit.md
@@ -177,22 +224,19 @@ Everything runs automatically while you sleep:
 │   ├── context-optimizer.md
 │   ├── repo-onboard.md
 │   └── executive-ceo.md
-├── skills/               # 13 skills
+├── skills/               # 17 custom skills (zappro)
 │   ├── repo-scan.md
 │   ├── pipeline-gen.md
 │   ├── smoke-test-gen.md
 │   ├── human-gates.md
-│   ├── skill-auditor.md
-│   ├── release-notes.md
-│   ├── devops-pipeline.md
-│   ├── test-coverage.md
-│   ├── oss-ready.md
-│   └── skill-creator.md
-├── rules/                # 4 hooks
-│   ├── PreToolUse-Bash-validate.bash
-│   ├── PreToolUse-Edit-validate.bash
-│   ├── Stop-session-log.bash
-│   └── Stop-modo-dormir.bash
+│   └── ... (13 more)
+├── hooks/                # ⭐ Pre/Post tool hooks
+│   ├── PreToolUse-Bash-validate.bash   # Block dangerous commands
+│   ├── PreToolUse-Edit-validate.bash    # Protect critical files
+│   ├── Stop-session-log.bash            # Session logging
+│   └── Stop-modo-dormir.bash            # Modo dormir trigger
+├── rules/
+│   └── agent-skills.rules  # Loads agent-skills system
 ├── scripts/              # Utilities
 │   ├── env-wrapper.sh
 │   └── backup-memory.sh
@@ -214,10 +258,11 @@ docs/
 ## 🔐 Security Built-In
 
 - ✅ API keys in `~/.claude/.secrets` (never committed)
-- ✅ Pre-tool hooks block dangerous commands
+- ✅ Pre-tool hooks block dangerous commands (mkfs, dd, wipefs, etc)
 - ✅ Secrets audit before every push
 - ✅ Edit protection for immutable files
 - ✅ Skill auditor scans for prompt injection
+- ✅ Agent-skills.rules loads security-focused agents
 
 ---
 
