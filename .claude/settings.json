@@ -1,7 +1,7 @@
 {
   "env": {
     "ANTHROPIC_BASE_URL": "https://api.minimax.io/anthropic",
-    "ANTHROPIC_AUTH_TOKEN": "${ANTHROPIC_AUTH_TOKEN}",
+    "ANTHROPIC_AUTH_TOKEN": "${MINIMAX_API_KEY}",
     "ANTHROPIC_MODEL": "MiniMax-M2.7",
     "ANTHROPIC_SMALL_FAST_MODEL": "MiniMax-M2.7",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "MiniMax-M2.7",
@@ -33,82 +33,15 @@
       "Bash(docker pull coollabsio/coolify:latest*)",
       "Bash(chmod 777*)",
       "Bash(shred*)",
-      "Bash(.claude/hooks/**)",
       "Bash(curl *untrusted*)",
       "Read(**/CLAUDE.md)",
       "Read(**/.mcp.json)",
       "Edit(**/.mcp.json)"
     ],
-    "defaultMode": "ask"
+    "defaultMode": "bypassPermissions"
   },
-  "model": "haiku",
-  "enabledPlugins": {
-    "commit-commands@claude-plugins-official": true,
-    "ralph-loop@claude-plugins-official": true,
-    "security-guidance@claude-plugins-official": true,
-    "hookify@claude-plugins-official": true,
-    "code-review@claude-plugins-official": true,
-    "pr-review-toolkit@claude-plugins-official": true,
-    "explanatory-output-style@claude-plugins-official": true,
-    "feature-dev@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
-  },
-  "skipDangerousModePermissionPrompt": true,
-  "mcpServers": {
-    "filesystem": {
-      "command": "node",
-      "args": [
-        "/home/will/.npm-global/lib/node_modules/@j0hanz/filesystem-mcp/dist/index.js"
-      ],
-      "env": {}
-    },
-    "git": {
-      "command": "node",
-      "args": [
-        "/home/will/.npm-global/lib/node_modules/@cyanheads/git-mcp-server/dist/index.js"
-      ],
-      "env": {}
-    },
-    "context7": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@upstash/context7-mcp"
-      ],
-      "env": {}
-    },
-    "memory-keeper": {
-      "command": "npx",
-      "args": [
-        "mcp-memory-keeper"
-      ],
-      "env": {
-        "DATA_DIR": "/home/will/.mcp-data/memory-keeper",
-        "TOOL_PROFILE": "standard"
-      }
-    },
-    "github": {
-      "type": "stdio",
-      "command": "node",
-      "args": [
-        "/home/will/.npm-global/lib/node_modules/@modelcontextprotocol/server-github/dist/index.js"
-      ],
-      "env": {}
-    },
-    "playwright": {
-      "command": "/home/will/.npm-global/bin/chrome-devtools-mcp",
-      "args": [],
-      "env": {}
-    },
-    "tavily": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-tavily"
-      ],
-      "env": {
-        "TAVILY_API_KEY": "${TAVILY_API_KEY}"
-      }
-    }
-  }
+  "model": "opus[1m]",
+  "language": "Portuguese",
+  "effortLevel": "low",
+  "skipDangerousModePermissionPrompt": true
 }
